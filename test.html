@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Finder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="web-name">
+        <h1>Movie Finder</h1>
+    </div>
+
+    <div class="card-bar">
+        <div class="search">
+            <input type="text" placeholder="Enter movie!!!"
+            spellcheck="false">
+            <button><img src="./assets/searchicon2.webp"></button>
+        </div>
+        <div class="error">
+            <p>Invalid movie name</p>
+
+        </div>
+    </div>
+
+    <div class="movie-information">
+
+
+
+    </div>
+
+
+    
+<script>
+// 'https://movie-database-alternative.p.rapidapi.com/?s=physical%20100&r=json&page=1'
+//  remember the '&' at the end to add the s = Title
+const apiUrl = "https://movie-database-alternative.p.rapidapi.com/?r=json&" 
+
+const searchBox = document.querySelector(".search input");
+const searchBtn = document.querySelector(".search button");
+const errorDiv = document.querySelector(".error");
+const movieInformation = document.querySelector(".movie-information");
+
+
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '10f1df694amsh1b6df168762d3efp198575jsncb9f5388c537',
+		'X-RapidAPI-Host': 'movie-database-alternative.p.rapidapi.com'
+	}
+};
+
+async function findMovie(name){
+    const response = await fetch(apiUrl + "s=" + encodeURIComponent(name), options);
+	var data = await response.json();
+    console.log(data);
+
+    if (data.Response === "True") {
+        // Clear previous search results
+        movieInformation.innerHTML = '';
+
+        
+        for (let i = 0; i <data.Search.length; i++) {
+            const movie = data.Search[i];
+
+            const movieDiv = document.createElement("div");
+            movieDiv.classList.add("movie-entry");
+
+            let moviePoster = document.createElement("img");
+            moviePoster.src = movie.Poster;
+            movieDiv.appendChild(moviePoster);
+
+            //  using movieTitle = movie.Title. 
+            // This replaces the h1 element with a string, which is causing the error when you try to append it.
+            let movieTitle = document.createElement("h1");
+            movieTitle.textContent = movie.Title;
+            movieDiv.appendChild(movieTitle);
+
+            let movieYear = document.createElement("h2");
+            movieYear.textContent = movie.Year;
+            movieDiv.appendChild(movieYear);
+
+            let movieType = document.createElement("h3");
+            movieType.textContent = movie.Type;
+            movieDiv.appendChild(movieType);
+
+            movieInformation.appendChild(movieDiv);
+
+
+            // movieTitle.textContent = movie.Title;
+            // movieYear.textContent = movie.Year;
+            // movieType.textContent = movie.Type;
+            // moviePoster.src = movie.Poster;
+        }
+        // const movie = data.Search[3];
+        // movieTitle.textContent = movie.Title;
+        // movieYear.textContent = movie.Year;
+        // movieType.textContent = movie.Type;
+        // moviePoster.src = movie.Poster;
+        
+        errorDiv.style.display = "none"; // Hide error message if successful
+
+        console.log(data);
+    
+    } else {
+        errorDiv.style.display = "block";
+        moviePoster.src = ""; // Clear poster if there's an error
+    }
+}
+
+
+
+searchBtn.addEventListener("click", () => {
+    findMovie(searchBox.value);
+});
+
+// Optional: Handle search on pressing Enter key
+
+// Initial call to findMovie to display some default movie
+// findMovie("Physical 100");
+
+
+</script>
+
+
+</body>
+</html>

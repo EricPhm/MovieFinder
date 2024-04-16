@@ -1,0 +1,72 @@
+
+
+
+.web-name{
+    color:#efefef;
+    margin-left: 10px;
+    text-align: center;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgb(116, 201, 230), rgb(138, 129, 189));
+    max-width: 280px; /* max width for box*/
+}
+
+.search{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.search input{
+    border: 0;
+    outline: 1rem solid #efefef;
+    background: #fff;
+    color: #555;
+    padding: 10px 25px;
+    height: 40px;
+    border-radius: 30px;
+    flex: 1;
+    margin-right: 16px;
+    font-size: 18px;
+}
+.search button{
+    border: 0;
+    outline: 0;
+    outline: 1rem solid #efefef;
+    background: #fff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer
+}
+.search button img{
+    height: 2rem;
+}
+
+/* movie-information */
+.movie-information {
+    align-items: center;
+    text-align: center;
+    color: #555;
+}
+
+.movie-poster {
+    width: 200px;
+    margin-top: 40px;
+    text-align: center; 
+}
+
+.movie-information h1{
+    font-size: 80px;
+    font-weight: 500;
+    margin-top: 20px;
+}
+.movie-information h2{
+    font-size: 45px;
+    font-weight: 400;
+    margin-top: 20px;
+}
+.movie-information h3{
+    font-size: 45px;
+    font-weight: 400;
+    margin-top: 20px;
+}

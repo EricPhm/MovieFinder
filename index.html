@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Finder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="web-name">
+        <h1>Movie Finder</h1>
+    </div>
+
+    <div class="card-bar">
+        <div class="search">
+            <input type="text" placeholder="Enter movie!!!"
+            spellcheck="false">
+            <button><img src="./assets/searchicon2.webp"></button>
+        </div>
+        <div class="error">
+            <p>Invalid movie name</p>
+
+        </div>
+    </div>
+
+    <div class="movie-information">
+        <img src="https://m.media-amazon.com/images/M/MV5BZDYzMDBhMGEtMDA2Ni00ZjY1LWE4ZTktYWQ3YzlhOWE2NGM2XkEyXkFqcGdeQXVyNDA1OTM4MjM@._V1_SX300.jpg"
+        class="movie-poster">
+        <h1 class="title">_____</h1>
+        <h2 class="year">______</h2>
+        <h3 class="type">____</h3>
+    </div>
+
+<script>
+// 'https://movie-database-alternative.p.rapidapi.com/?s=physical%20100&r=json&page=1'
+//  remember the '&' at the end to add the s = Title
+const apiUrl = "https://movie-database-alternative.p.rapidapi.com/?r=json&" 
+
+const searchBox = document.querySelector(".search input");
+const searchBtn = document.querySelector(".search button");
+const moviePoster = document.querySelector(".movie-poster");
+const movieTitle = document.querySelector(".title");
+const movieYear = document.querySelector(".year");
+const movieType = document.querySelector(".type");
+const errorDiv = document.querySelector(".error");
+
+
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '10f1df694amsh1b6df168762d3efp198575jsncb9f5388c537',
+		'X-RapidAPI-Host': 'movie-database-alternative.p.rapidapi.com'
+	}
+};
+
+async function findMovie(name){
+    const response = await fetch(apiUrl + "s=" + encodeURIComponent(name), options);
+	var data = await response.json();
+    console.log(data);
+
+    if (data.Response === "True") {
+        
+        const movie = data.Search[3];
+        movieTitle.textContent = movie.Title;
+        movieYear.textContent = movie.Year;
+        movieType.textContent = movie.Type;
+        moviePoster.src = movie.Poster;
+        
+        errorDiv.style.display = "none"; // Hide error message if successful
+
+        console.log(data);
+    
+    } else {
+        errorDiv.style.display = "block";
+        moviePoster.src = ""; // Clear poster if there's an error
+    }
+}
+
+
+
+searchBtn.addEventListener("click", () => {
+    findMovie(searchBox.value);
+});
+
+// Optional: Handle search on pressing Enter key
+
+// Initial call to findMovie to display some default movie
+// findMovie("Physical 100");
+
+
+</script>
+
+
+</body>
+</html>
